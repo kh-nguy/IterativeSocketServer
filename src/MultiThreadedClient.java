@@ -62,8 +62,29 @@ public class MultiThreadedClient
         System.out.println("\nEnter command (Date and Time, Uptime, Memory Use, Netstat, Current Users, Running Processes): ");
         String command = scanner.nextLine();
 
-        System.out.println("\nEnter number of client requests to generate (1, 5, 10, 15, 20, or 25):");
-        int count = scanner.nextInt();
+        int count = 0;
+        int[] allowed = {1, 5, 10, 15, 20, 25};
+        boolean valid = false;
+        // while loop to validate number of requests to generate
+        while (!valid) {
+            System.out.println("\nEnter number of client requests to generate (1, 5, 10, 15, 20, or 25):");
+            if (scanner.hasNextInt()) {
+                count = scanner.nextInt();
+                scanner.nextLine(); // consume newline character
+                for (int a : allowed) {
+                    if (count == a) {
+                        valid = true;
+                        break;
+                    }
+                }
+                if (!valid) {
+                    System.out.println("Invalid input. Please enter one of the allowed values (1, 5, 10, 15, 20, or 25).");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // consume invalid input
+            }
+        }
 
         long totalTime = 0;
         Thread[] threads = new Thread[count];
